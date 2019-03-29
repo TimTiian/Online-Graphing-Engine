@@ -28,6 +28,9 @@ def load_image():
 def code_start():
 	return "Hello Flagdream!"
 
+@app.route('/will', method=['GET'])
+def will():
+	return "Hello Will"
 
 if __name__ == '__main__':
 	import sys

@@ -28,7 +28,7 @@ def load_image():
 def code_start():
 	return "Hello Flagdream!"
 
-@app.route('/will', method=['GET'])
+@app.route('/will', methods=['GET'])
 def will():
 	return "Hello Will"
 

@@ -17,4 +17,10 @@ export class DataService {
   getProblem(id: number): Problem{
     return this.problems.find( (problem) => problem.id === id); //(problem) 是一个输入  三等号：是javascript中在判断两端是否相等，不仅考虑数值，还考虑type
   } 
+  
+  addProblem(problem: Problem){
+    problem.id = this.problems.length + 1;
+    this.problems.push(problem);
+    
+  }
 }

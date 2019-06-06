@@ -1,44 +1,22 @@
-const EXECUTOR_SERVER_URL = 'http://localhost:5000/code_start';
+const express = require('express'); //require的功能类似import
+const app = express(); //express是一个object，是一个函数，可以运行的. app是express的一个实例
+const path = require("path");
 
-// Create express HTTP server, port, request/response handler, redis client
-var http = require('http'),
-    express = require('express'),
-    request = require('request'),
-    redis = require('redis'),
-    app = express(),
-    server = http.createServer(app),
-    redisClient = redis.createClient(),
-    port = 8080;
+//connect to MongoDB 
+const mongoose = require("mongoose");
+mongoose.connect("mongodb+srv://oge:oge@cluster0-pgnzw.mongodb.net/problems");
 
-server.listen(port);
-server.on('listening', onListening);
+const restRouter = require("./routes/rest.js");
 
+app.use('/api/v1', restRouter);
 
-app.get('/', function (req, res) {
-    request.get(EXECUTOR_SERVER_URL, function(error, response, body) {
-        res.send(body);
-    });
+app.use(express.static(path.join(__dirname, '../public'))); //express是express object的一个member
+
+app.listen(8080, () => {
+    console.log('App is listing to port 8080');
 });
 
-
-redisClient.on('connect', function() {
-    console.log('Redis client connected');
+//如果没有任何人处理，作为运行兜底
+app.use((req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
-
-redisClient.on('error', function (err) {
-    console.log('Something went wrong ' + err);
-});
-
-redisClient.set('my test key', 'my test value', redis.print);
-redisClient.get('my test key', function (error, result) {
-    if (error) {
-        console.log(error);
-        throw error;
-    }
-    console.log('GET result ->' + result);
-});
-
-
-function onListening() {
-	console.log('App listening on port ', port);
-}

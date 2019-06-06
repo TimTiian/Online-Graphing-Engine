@@ -13,7 +13,7 @@ const routes: Routes = [
         component:ProblemListComponent
     },
     {
-        path: 'problems/:id',
+        path: 'problems/:id',  //指向具体题目
         component: ProblemDetailComponent
     },
     {

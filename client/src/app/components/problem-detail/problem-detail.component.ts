@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'; 
-import { ActivatedRoute, Params } from '@angular/router'; 
-import { Problem } from '../../models/problem.model';
+import { Component, OnInit } from '@angular/core'; //引入Angular中的Component模块
+import { ActivatedRoute, Params } from '@angular/router'; // Router 模块
+import { Problem } from '../../models/problem.model'; //因为引入了Problem属性
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { DataService } from '../../services/data.service';
 })
 export class ProblemDetailComponent implements OnInit {
   problem: Problem;
-  constructor(private dataService: DataService, private route, ActivatedRoute) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() { //可以从URL拿到需要的id，从dataService当中拿到需要的信息
     this.route.params.subscribe(params => { //subscribe 观察者模式写法； routes.param是一个数据源

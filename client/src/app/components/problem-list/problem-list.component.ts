@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Problem } from '../../models/problem.model';
 import { DataService } from '../../services/data.service';
 
@@ -8,8 +9,9 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./problem-list.component.css']
 })
 
-export class ProblemListComponent implements OnInit {
+export class ProblemListComponent implements OnInit, OnDestroy {
   problems: Problem[];
+  subcriptionProblems: Subscription;
 
   constructor(private dataService: DataService) { }
 
@@ -17,8 +19,14 @@ export class ProblemListComponent implements OnInit {
     this.getProblems();
   }
   
+  ngOnDestroy(){
+    this.subcriptionProblems.unsubscribe();
+  }
+  
   getProblems() {
-    this.problems = this.dataService.getProblems();
+    // this.problems = this.dataService.getProblems();
+    this.subcriptionProblems = this.dataService.getProblems()
+      .subscribe(problems => this.problems = problems);
   }
 
 }

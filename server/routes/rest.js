@@ -3,7 +3,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");//前端向后端传递数据，json格式传到后端需要被识别
 const jsonParser = bodyParser.json();
 
-const problemService = require('../services./problemService');
+const problemService = require('../services/problemService');
 
 router.get('/problems', (req, res) => {
     //get all problem

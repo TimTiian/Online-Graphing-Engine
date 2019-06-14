@@ -29,7 +29,7 @@ const getProblem = function(id) {
             }else{
                 resolve(problem);
             }
-        })
+        });
     });
 }
 
@@ -45,7 +45,7 @@ const addProblem = function(newProblem) {
     //     };
     // });
     return new Promise((resolve, reject) => {
-    	ProblemModel.findOne({name: newProblem}, (err, data) => {
+    	ProblemModel.findOne({name: newProblem.name}, (err, data) => {
     		if(data){
     			reject('Problem already exists!');
     		} else {

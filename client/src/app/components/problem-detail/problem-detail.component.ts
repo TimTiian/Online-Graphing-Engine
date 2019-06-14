@@ -14,8 +14,10 @@ export class ProblemDetailComponent implements OnInit {
 
   ngOnInit() { //可以从URL拿到需要的id，从dataService当中拿到需要的信息
     this.route.params.subscribe(params => { //subscribe 观察者模式写法； routes.param是一个数据源
-      this.problem = this.dataService.getProblem(+params['id']);//+的作用，将string转换为Integer
-    })
+      // this.problem = this.dataService.getProblem(+params['id']);//+的作用，将string转换为Integer
+      this.dataService.getProblem(+params['id'])
+        .then(problem => this.problem = problem);
+    });
   }
 
 }

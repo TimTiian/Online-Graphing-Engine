@@ -28,7 +28,9 @@ module.exports = function(io){
                 let participants = collaborations[problemId]['participants'];
                 
                 for(let i = 0; i < participants.length; i++){
-                    io.to(participants[i]).emit('change', delta);
+                    if(socket.id != participants[i]){
+                        io.to(participants[i]).emit('change', delta);
+                    }
                 }
             }else {
                 console.log('Warning: could not find problme Id in collaborations');

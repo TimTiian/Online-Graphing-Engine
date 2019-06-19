@@ -234,7 +234,10 @@ let EditorComponent = class EditorComponent {
             this.initEditor();
         });
         this.collaboration.init(this.editor, this.problemId);
+        //调用service中的方法
+        this.collaboration.restoreBuffer();
     }
+    //任何用户进来，problemID变化的时候
     initEditor() {
         this.editor = ace.edit("editor"); //引号中的editor是html中的
         this.editor.setTheme("ace/theme/eclipse"); //设置包含eclipse的theme
@@ -431,7 +434,7 @@ module.exports = ".difficult {\n\tmin-width: 65px;\n\tmargin-right: 18px;\n}\n .
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"list-group\">\n    <a class=\"list-group-item\" *ngFor=\"let problem of problems\" [routerLink] = \"['/problems', problem.id]\">\n      <span class=\"{{'pull-left badge difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}\">\n        {{problem.difficulty}}\n      </span>\n      <strong class=\"title\">{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n\n</div>\n"
+module.exports = "<div class=\"container\">\n  <app-new-problem></app-new-problem>\n  <div class=\"list-group\">\n    <a class=\"list-group-item\" *ngFor=\"let problem of problems\" [routerLink] = \"['/problems', problem.id]\">\n      <span class=\"{{'pull-left badge difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}\">\n        {{problem.difficulty}}\n      </span>\n      <strong class=\"title\">{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n\n</div>\n"
 
 /***/ }),
 
@@ -503,13 +506,17 @@ let CollaborationService = class CollaborationService {
         });
         this.collaborationSocket.on('change', (delta) => {
             console.log('collaboration: editor changes by ' + delta);
-            delta = JSON.parse(delta);
+            delta = JSON.parse(delta); //从string变为object
             editor.lastAppliedChange = delta;
-            editor.getSession().getDocument().applyDeltas([delta]);
+            editor.getSession().getDocument().applyDeltas([delta]); //每个用户的界面显示同步的内容
         });
     }
     change(delta) {
         this.collaborationSocket.emit('change', delta);
+    }
+    //添加缓存功能，使用户随时可以看到内容
+    restoreBuffer() {
+        this.collaborationSocket.emit('restoreBuffer');
     }
 };
 CollaborationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([

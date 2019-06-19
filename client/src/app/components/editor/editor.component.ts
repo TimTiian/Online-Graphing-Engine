@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { CollaborationService } from '../../services/collaboration.service';
+import { CollaborationService } from '../../services/collaboration.service'；
 
 declare var ace: any;
 
@@ -33,8 +33,11 @@ export class EditorComponent implements OnInit {
       });
       
     this.collaboration.init(this.editor, this.problemId);
+    
+    //调用service中的方法
+    this.collaboration.restoreBuffer();
   }
-  
+  //任何用户进来，problemID变化的时候
   initEditor(): void{
     this.editor = ace.edit("editor"); //引号中的editor是html中的
     this.editor.setTheme("ace/theme/eclipse");//设置包含eclipse的theme
